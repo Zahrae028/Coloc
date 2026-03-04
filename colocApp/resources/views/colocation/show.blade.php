@@ -3,6 +3,7 @@
 @section('content')
 <div class="coloc-show">
     <h2 class="coloc-name">{{ $colocation->name }}</h2>
+    <h2 class="coloc-name" style="color:aqua;">{{ $colocation->status }}</h2>
     <p class="coloc-owner">Owner: {{ $colocation->owner->name }}</p>
 
     <h3>Members</h3>

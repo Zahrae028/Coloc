@@ -39,6 +39,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('category/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
     
     Route::get('expense', [ExpenseController::class, 'index'])->name('expense.index');
+    Route::get('/expense/{id}', [ExpenseController::class, 'show'])
+        ->name('expense.show');
     Route::get('expense/create', [ExpenseController::class, 'create'])->name('expense.create');
     Route::post('expense', [ExpenseController::class, 'store'])->name('expense.store');
     Route::get('expense/{id}/edit', [ExpenseController::class, 'edit'])->name('expense.edit');
@@ -48,10 +50,11 @@ Route::middleware('auth')->group(function () {
         ->name('expenses.markPaid');
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware('auth')->group(function () {
 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::patch('/users/{user}/make-admin', [AdminController::class, 'makeAdmin'])->name('admin.users.makeAdmin');
     Route::get('/colocations', [AdminController::class, 'colocations'])->name('admin.colocations');
     Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])->name('admin.users.destroy');
     Route::delete('/colocations/{id}', [AdminController::class, 'deleteColocation'])->name('admin.colocations.destroy');

@@ -12,14 +12,16 @@ class ExpenseController extends Controller
 {
 
     public function index()
-    {
-        $user = Auth::user();
-        $colocation = $user->colocations()->first();
-        $expenses = $colocation->expenses();
+{
+    $user = Auth::user();
+    $colocation = $user->colocations()->first();
 
-        return view('expense.index', compact('expenses', 'colocation'));
+    $expenses = $colocation->expenses()
+        ->with(['category', 'payer'])
+        ->get();
 
-    }
+    return view('expense.index', compact('expenses', 'colocation'));
+}
 
     public function create()
     {

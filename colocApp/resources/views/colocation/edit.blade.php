@@ -3,7 +3,13 @@
 @section('content')
 <div class="coloc-edit">
     <h2>Edit Colocation</h2>
-
+@if ($errors->any())
+            <div style="color:red;">
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
     <form action="{{ route('colocation.update', $colocation->id) }}" method="POST" class="coloc-edit-form">
         @csrf
         @method('PUT')
@@ -28,7 +34,7 @@
             <label for="status">Status</label>
             <select name="status" id="status" class="select-status">
                 <option value="active" {{ $colocation->status == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="inactive" {{ $colocation->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                <option value="cancelled" {{ $colocation->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
             </select>
         </div>
 

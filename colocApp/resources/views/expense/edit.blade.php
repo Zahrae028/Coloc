@@ -1,10 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="expenses-edit">
+<div class="expenses-edit container">
     <h2>Edit Expense for {{ $colocation->name }}</h2>
 
-    <form action="{{ route('expenses.update', $expense->id) }}" method="POST" class="expense-edit-form">
+    @if ($errors->any())
+            <div style="color:red;">
+                @foreach ($errors->all() as $error)
+                    <p>{{ $error }}</p>
+                @endforeach
+            </div>
+        @endif
+    <form action="{{ route('expense.update', $expense->id) }}" method="POST" class="expense-edit-form">
         @csrf
         @method('PUT')
 

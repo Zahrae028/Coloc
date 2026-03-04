@@ -15,7 +15,10 @@ class ColocationController extends Controller
     {
         $user = Auth::user();
         $colocation = $user->colocations()->first();
-    $expenses = $user->expenses();
+    $expenses = $colocation->expenses()->where('paid_by', $user->id)
+    ->with(['category', 'payer']) 
+    ->get();
+
 $invitations = collect();
     if (!$colocation) {
         $invitations = $user->invitations()->where('status', 'pending')->with('colocation.owner')->get();
@@ -75,22 +78,25 @@ $invitations = collect();
 
 
     public function edit(string $id)
-    {
-        $user = Auth::user();
-        if ($user->colocations()->id != $id) {
-            abort(403);
-        }
-        $colocation = Colocation::with('owner', 'members')->findOrFail($id);
-        $members = $colocation->members;
+{
+    $user = Auth::user();
 
-        return view('colocation.edit', compact('colocation', 'members'));
+    $colocation = $user->colocations()->find($id);
+    if (!$colocation) {
+        abort(403, 'Unauthorized');
     }
+
+    $colocation->load('owner', 'members');
+    $members = $colocation->members;
+
+    return view('colocation.edit', compact('colocation', 'members'));
+}
 
 
     public function update(ColocationRequest $request, string $id)
     {
         $user = Auth::user();
-        $colocation = $user->colocation;
+        $colocation = $user->colocations()->first();
 
         if ($colocation->owner_id != $user->id) {
             abort(403);
@@ -100,13 +106,13 @@ $invitations = collect();
         $status = $request->input('status');
         $newOwner = $request->input('owner');
 
-        if (!$name || strlen($name) < 3) {
-            return back()->with('error', 'Colocation name must be at least 3 characters.');
-        }
+        
         $colocation->name = $name;
         $colocation->owner_id = $newOwner;
         $colocation->status = $status;
         $colocation->save();
+
+        return redirect()->route('colocation.show', $colocation->id)->with('success','Colocation updated.');
 
     }
 

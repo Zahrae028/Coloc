@@ -17,7 +17,7 @@ class Expense extends Model
     
     public function colocation()
     {
-        return $this->belongsTo(Colocation::class , 'colocation_id');
+        return $this->belongsTo(Colocation::class);
     }
     public function payer()
     {
@@ -25,7 +25,7 @@ class Expense extends Model
     }
     public function category()
     {
-        return $this->belongsTo(Category::class , 'category_id');
+        return $this->belongsTo(Category::class);
     }
 
     public function members()

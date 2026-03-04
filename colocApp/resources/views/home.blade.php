@@ -18,7 +18,7 @@
                             -
                             <span class="expense-amount">{{ $expense->amount }} €</span>
                             -
-                            <span class="expense-date">{{ $expense->created_at->format('Y-m-d') }}</span>
+
                         </li>
                     @endforeach
                 </ul>
