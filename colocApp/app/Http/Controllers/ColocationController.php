@@ -15,8 +15,14 @@ class ColocationController extends Controller
     {
         $user = Auth::user();
         $colocation = $user->colocations()->first();
+    $expenses = $user->expenses();
+$invitations = collect();
+    if (!$colocation) {
+        $invitations = $user->invitations()->where('status', 'pending')->with('colocation.owner')->get();
+    }
 
-        return view('home' , compact('colocation'));
+    return view('home', compact('colocation', 'expenses', 'invitations'));
+        return view('home' , compact('colocation','expenses'));
     }
 
 
@@ -111,4 +117,29 @@ class ColocationController extends Controller
 
         return redirect()->route(('user.index'));
     }
+
+      public function removeMember($colocationId, $userId)
+    {
+        $colocation = Colocation::with('members')->findOrFail($colocationId);
+        // $user = Auth::user();
+
+
+        $colocation->members()->detach($userId);
+
+        return back()->with('success', "Member removed successfully.");
+    }
+
+     public function transferOwnership(Request $request, $colocationId)
+    {
+        $colocation = Colocation::with('members')->findOrFail($colocationId);
+        // $user = Auth::user();
+        $newOwnerId = $request->input('new_owner_id');
+    
+
+        $colocation->owner_id = $newOwnerId;
+        $colocation->save();
+
+        return back()->with('success', "Ownership transferred successfully.");
+    }
+
 }

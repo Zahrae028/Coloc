@@ -16,9 +16,8 @@ class ExpenseRequest extends FormRequest
         return [
             'title' => 'required|string|min:3|max:255',
             'amount' => 'required|numeric|min:0.01',
-            'date' => 'required|date',
+            'paid_by' => 'required|exists:users,id',
             'category_id' => 'required|exists:categories,id',
-            'payer_id' => 'required|exists:users,id',
         ];
     }
 }

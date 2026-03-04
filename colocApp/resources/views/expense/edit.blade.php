@@ -18,10 +18,7 @@
             <input type="number" step="0.01" name="amount" id="amount" class="input-amount" value="{{ $expense->amount }}">
         </div>
 
-        <div class="form-group">
-            <label for="date">Date</label>
-            <input type="date" name="date" id="date" class="input-date" value="{{ $expense->date->format('Y-m-d') }}">
-        </div>
+        
 
         <div class="form-group">
             <label for="category">Category</label>

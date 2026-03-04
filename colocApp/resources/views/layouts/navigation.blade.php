@@ -1,8 +1,10 @@
 <nav>
     <a href="/home">Home</a>
+    @if(auth()->user()->colocations->isNotEmpty())
     <a href="{{ route('colocation.show') }}">Colocation</a>
     <a href="{{ route('expense.index', $colocation->id) }}">Expenses</a>
-    @if(auth()->id() === $colocation->owner_id)
+    @endif
+    @if(auth()->user()->colocations->isNotEmpty() && auth()->id() === $colocation->owner_id)
     <a href="/expense/create">Add Expense</a>
     @endif
 

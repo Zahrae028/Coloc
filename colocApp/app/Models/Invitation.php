@@ -14,9 +14,22 @@ class Invitation extends Model
         'status',
 
     ];
+    protected $casts = [
+        'status' => 'string',
+    ];
 
     public function colocation()
     {
         return $this->belongsTo(Colocation::class);
+    }
+
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
     }
 }

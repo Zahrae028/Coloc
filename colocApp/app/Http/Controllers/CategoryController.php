@@ -43,7 +43,7 @@ class CategoryController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('category.index')->with('success', 'Category created successfully.');
+        return back()->with('success', 'Category created successfully.');
     }
 
     public function edit($id)

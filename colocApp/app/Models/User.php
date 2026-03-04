@@ -56,6 +56,10 @@ class User extends Authenticatable
     }
     public function expenses()
     {
-        return $this->hasMany(Expense::class, 'payer_id');
+        return $this->hasMany(Expense::class, 'paid_id');
     }
+    public function invitations()
+{
+    return $this->hasMany(\App\Models\Invitation::class, 'email', 'email');
+}
 }

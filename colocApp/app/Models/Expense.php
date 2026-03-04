@@ -11,21 +11,27 @@ class Expense extends Model
         'colocation_id',
         'title',
         'amount',
-        'date',
         'category_id',
-        'payer_id',
+        'paid_by',
     ];
     
     public function colocation()
     {
-        return $this->belongsTo(Colocation::class);
+        return $this->belongsTo(Colocation::class , 'colocation_id');
     }
     public function payer()
     {
-        return $this->belongsTo(User::class, 'payer_id');
+        return $this->belongsTo(User::class, 'paid_by');
     }
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class , 'category_id');
     }
+
+    public function members()
+{
+    return $this->belongsToMany(User::class, 'payments')
+                ->withPivot('share', 'paid')
+                ->withTimestamps();
+}
 }

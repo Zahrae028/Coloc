@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="invitation-form-container">
+<div class="invitation-form-container container">
     <h2>Invite a User to Join Your Colocation</h2>
 
     <form method="POST" action="{{ route('invitations.store') }}" class="invitation-form">

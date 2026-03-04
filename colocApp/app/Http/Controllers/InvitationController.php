@@ -11,7 +11,16 @@ use Illuminate\Support\Str;
 
 class InvitationController extends Controller
 {
-    
+    public function index()
+    {
+        $user = Auth::user();
+        $invitations = Invitation::with('colocation', 'sender')
+            ->where('email', $user->email)
+            ->where('status', 'pending')
+            ->get();
+
+        return view('invitations.index', compact('invitations'));
+    }
     public function create()
     {
         $user = Auth::user();
